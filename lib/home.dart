@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
       ),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -68,6 +68,36 @@ class _HomeState extends State<Home> {
           // backgroundColor: Colors.white,
           body: Column(
             children: [
+              Container(
+                // height: MediaQuery.of(context).size.height/16,
+                // width: MediaQuery.of(context).size.width,
+                // color: Colors.orange,
+                decoration: BoxDecoration(
+                  color: Colors.black38,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(5),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        // ignore: prefer_const_constructors
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'search',
+                        ),
+                      ),
+                    ),
+                    InkWell(onTap: () {}, child: Icon(Icons.search)),
+                  ],
+                ),
+              ),
+
+              // ignore: prefer_const_constructors
+              // SizedBox(
+              //   height: 20,
+              // ),
               Expanded(
                 // ignore: avoid_unnecessary_containers
                 child: Container(
@@ -75,8 +105,8 @@ class _HomeState extends State<Home> {
                     itemCount: images.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 2,
+                            crossAxisSpacing: 2,
                             childAspectRatio: 2 / 4,
                             crossAxisCount: 3),
                     itemBuilder: (context, index) {
@@ -90,11 +120,16 @@ class _HomeState extends State<Home> {
                                             ['large2x'],
                                       )));
                         },
-                        child: Container(
-                          color: Colors.white,
-                          child: Image.network(
-                            images[index]['src']['tiny'],
-                            fit: BoxFit.cover,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Container(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                images[index]['src']['tiny'],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                       );

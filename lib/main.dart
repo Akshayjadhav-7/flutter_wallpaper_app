@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 
 void main() {
-  runApp(const WallPaperApp());
+  // ignore: prefer_const_constructors
+  runApp(MaterialApp(home: const WallPaperApp(),debugShowCheckedModeBanner: false,));
 }
 
 class WallPaperApp extends StatelessWidget {
