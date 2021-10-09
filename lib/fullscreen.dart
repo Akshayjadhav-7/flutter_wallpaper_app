@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
 
+
+
 class FullScreen extends StatefulWidget {
   final String imageurl;
-  const FullScreen({  Key? key, required this.imageurl})
-      : super(key: key);
+  const FullScreen({Key? key, required this.imageurl}) : super(key: key);
 
   @override
   _FullScreenState createState() => _FullScreenState();
 }
 
 class _FullScreenState extends State<FullScreen> {
-
- Future<void> setWallpaper()async{
-
-    int location  = WallpaperManager.HOME_SCREEN;
-    var file  = await DefaultCacheManager().getSingleFile(widget.imageurl);
-    final String result = await WallpaperManager.setWallpaperFromFile(file.path, location);
+  Future<void> setWallpaper() async {
+    int location = WallpaperManager.HOME_SCREEN;
+    var file = await DefaultCacheManager().getSingleFile(widget.imageurl);
+    final String result =
+        await WallpaperManager.setWallpaperFromFile(file.path, location);
   }
 
   @override
@@ -25,18 +25,18 @@ class _FullScreenState extends State<FullScreen> {
     return Scaffold(
       body: Container(
         child: Column(
-
           children: [
-            Expanded(child: Container(
+            Expanded(
+                child: Container(
               child: Image.network(widget.imageurl),
             )),
             Container(
-              child:  InkWell(
+              child: InkWell(
                 onTap: () {
                   // loadMore();
                 },
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     setWallpaper();
                   },
                   child: Container(

@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_wallpaper_app/fullscreen.dart';
-import 'package:flutter_wallpaper_app/widget/appBar.dart';
-import 'package:flutter_wallpaper_app/home.dart';
-import 'package:http/http.dart' as http;
+import './fullscreen.dart';
+import '../widget/appBar.dart';
+import './home.dart';
 
 class SearchedResultScreen extends StatefulWidget {
   const SearchedResultScreen({Key? key}) : super(key: key);
@@ -103,7 +103,6 @@ class _SearchedResultScreenState extends State<SearchedResultScreen> {
                     )),
               )),
         ],
-
       ),
     );
   }

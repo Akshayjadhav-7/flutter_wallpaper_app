@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_wallpaper_app/serach_screen.dart';
-import 'package:flutter_wallpaper_app/widget/appBar.dart';
-import 'package:http/http.dart' as http;
-import 'fullscreen.dart';
+import './serach_screen.dart';
+import '../widget/appBar.dart';
+import './fullscreen.dart';
 
 var key = GlobalKey<FormState>();
 List searchImage = [];
