@@ -1,9 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_wallpaper_app/serach_screen.dart';
+import 'package:flutter_wallpaper_app/widget/appBar.dart';
 import 'package:http/http.dart' as http;
-
 import 'fullscreen.dart';
+
+var key = GlobalKey<FormState>();
+List searchImage = [];
+TextEditingController searchController = TextEditingController();
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,12 +19,30 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List images = [];
+
   int page = 1;
 
   @override
   void initState() {
     super.initState();
     fetchApi();
+    // searchApi();
+  }
+
+  searchApi() async {
+    await http.get(
+        Uri.parse(
+            'https://api.pexels.com/v1/search?query=${searchController.text}?per_page=15'),
+        headers: {
+          'Authorization':
+              '563492ad6f917000010000010e72094cf8cf498ab463d7c70cb1a403'
+        }).then((value) {
+      Map result = jsonDecode(value.body);
+      print(value.body);
+      setState(() {
+        searchImage = result['photos'];
+      });
+    });
   }
 
   fetchApi() async {
@@ -63,41 +86,80 @@ class _HomeState extends State<Home> {
         brightness: Brightness.light,
       ),
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          // backgroundColor: Colors.white,
-          body: Column(
+      home: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: AppBarWidget(),
+        ),
+        // backgroundColor: Colors.white,
+        body: Form(
+          key: key,
+          child: Column(
             children: [
               Container(
-                // height: MediaQuery.of(context).size.height/16,
+                height: MediaQuery.of(context).size.height / 16,
                 // width: MediaQuery.of(context).size.width,
-                // color: Colors.orange,
+
                 decoration: BoxDecoration(
-                  color: Colors.black38,
+                  color: Color(0xffE7F2F8),
                   borderRadius: BorderRadius.circular(40),
                 ),
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(5),
+                margin: EdgeInsets.all(15),
+                // padding: EdgeInsets.all(5),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextFormField(
+
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'search can not  be empty';
+                          }
+                          return null;
+                        },
+                        controller: searchController,
                         // ignore: prefer_const_constructors
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'search',
+                          hintStyle:
+                              TextStyle(fontSize: 20, color: Colors.black12),
+                          contentPadding: EdgeInsets.all(16),
                         ),
+
                       ),
                     ),
-                    InkWell(onTap: () {}, child: Icon(Icons.search)),
+                    InkWell(
+                        onTap: () {
+
+                          if (key.currentState!.validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SearchedResultScreen()));
+                          }else{
+                            print('false');
+                          }
+                          searchApi();
+
+                          print(searchController);
+                          setState(() {
+                            searchController.text = "";
+                          });
+                        },
+                        // ignore: prefer_const_constructors
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                          // ignore: prefer_const_constructors
+                          child: Icon(
+                            Icons.search,
+                            size: 30,
+                          ),
+                        )),
                   ],
                 ),
               ),
-
-              // ignore: prefer_const_constructors
-              // SizedBox(
-              //   height: 20,
-              // ),
               Expanded(
                 // ignore: avoid_unnecessary_containers
                 child: Container(
@@ -107,8 +169,8 @@ class _HomeState extends State<Home> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             mainAxisSpacing: 2,
                             crossAxisSpacing: 2,
-                            childAspectRatio: 2 / 4,
-                            crossAxisCount: 3),
+                            childAspectRatio: 2 / 3,
+                            crossAxisCount: 2),
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
