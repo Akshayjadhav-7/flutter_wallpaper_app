@@ -94,122 +94,252 @@ class _HomeState extends State<Home> {
         // backgroundColor: Colors.white,
         body: Form(
           key: key,
-          child: Column(
+          child: Stack(
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 16,
-                // width: MediaQuery.of(context).size.width,
+              Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 16,
+                    // width: MediaQuery.of(context).size.width,
 
-                decoration: BoxDecoration(
-                  color: Color(0xffE7F2F8),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                margin: EdgeInsets.all(15),
-                // padding: EdgeInsets.all(5),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'search can not  be empty';
-                          }
-                          return null;
-                        },
-                        controller: searchController,
-                        // ignore: prefer_const_constructors
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'search',
-                          hintStyle:
-                              TextStyle(fontSize: 20, color: Colors.black12),
-                          contentPadding: EdgeInsets.all(16),
-                        ),
-
-                      ),
+                    decoration: BoxDecoration(
+                      color: Color(0xffE7F2F8),
+                      borderRadius: BorderRadius.circular(40),
                     ),
-                    InkWell(
-                        onTap: () {
-
-                          if (key.currentState!.validate()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SearchedResultScreen()));
-                          }else{
-                            print('false');
-                          }
-                          searchApi();
-
-                          print(searchController);
-                          setState(() {
-                            searchController.text = "";
-                          });
-                        },
-                        // ignore: prefer_const_constructors
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                          // ignore: prefer_const_constructors
-                          child: Icon(
-                            Icons.search,
-                            size: 30,
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              Expanded(
-                // ignore: avoid_unnecessary_containers
-                child: Container(
-                  child: GridView.builder(
-                    itemCount: images.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 2,
-                            crossAxisSpacing: 2,
-                            childAspectRatio: 2 / 3,
-                            crossAxisCount: 2),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FullScreen(
-                                        imageurl: images[index]['src']
-                                            ['large2x'],
-                                      )));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Container(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                images[index]['src']['tiny'],
-                                fit: BoxFit.cover,
-                              ),
+                    margin: EdgeInsets.all(15),
+                    // padding: EdgeInsets.all(5),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'search can not  be empty';
+                              }
+                              return null;
+                            },
+                            controller: searchController,
+                            // ignore: prefer_const_constructors
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'search',
+                              hintStyle: TextStyle(
+                                  fontSize: 20, color: Colors.black12),
+                              contentPadding: EdgeInsets.all(16),
                             ),
                           ),
                         ),
-                      );
+                        InkWell(
+                            onTap: () {
+                              if (key.currentState!.validate()) {
+                                searchApi();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SearchedResultScreen()));
+                              } else {
+                                print('false');
+                              }
+                              // searchApi();
+
+                              print(searchController);
+                              setState(() {
+                                searchController.text = "";
+                              });
+                            },
+                            // ignore: prefer_const_constructors
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                              // ignore: prefer_const_constructors
+                              child: Icon(
+                                Icons.search,
+                                size: 30,
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    // ignore: avoid_unnecessary_containers
+                    child: Container(
+                      child: GridView.builder(
+                        itemCount: images.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                mainAxisSpacing: 2,
+                                crossAxisSpacing: 2,
+                                childAspectRatio: 2 / 3,
+                                crossAxisCount: 2),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FullScreen(
+                                            imageurl: images[index]['src']
+                                                ['large2x'],
+                                          )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    images[index]['src']['tiny'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: InkWell(
+                    onTap: () {
+                      loadMore();
                     },
+                    // ignore: prefer_const_constructors
+                    child: SizedBox(
+                      height: 30,
+                      width: double.infinity,
+                      child: const Icon(
+                        Icons.arrow_drop_down_circle,
+                        size: 50,
+                        color: Colors.pink,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  loadMore();
-                },
-                child: Container(
-                  height: 30,
-                  width: double.infinity,
-                  child: const Center(child: Text('Load More')),
-                ),
-              ),
             ],
+            // child: Column(
+            //   children: [
+            //     Container(
+            //       height: MediaQuery.of(context).size.height / 16,
+            //       // width: MediaQuery.of(context).size.width,
+            //
+            //       decoration: BoxDecoration(
+            //         color: Color(0xffE7F2F8),
+            //         borderRadius: BorderRadius.circular(40),
+            //       ),
+            //       margin: EdgeInsets.all(15),
+            //       // padding: EdgeInsets.all(5),
+            //       child: Row(
+            //         children: [
+            //           Expanded(
+            //             child: TextFormField(
+            //
+            //               validator: (value) {
+            //                 if (value!.isEmpty) {
+            //                   return 'search can not  be empty';
+            //                 }
+            //                 return null;
+            //               },
+            //               controller: searchController,
+            //               // ignore: prefer_const_constructors
+            //               decoration: InputDecoration(
+            //                 border: InputBorder.none,
+            //                 hintText: 'search',
+            //                 hintStyle:
+            //                     TextStyle(fontSize: 20, color: Colors.black12),
+            //                 contentPadding: EdgeInsets.all(16),
+            //               ),
+            //
+            //             ),
+            //           ),
+            //           InkWell(
+            //               onTap: () {
+            //
+            //                 if (key.currentState!.validate()) {
+            //                   Navigator.push(
+            //                       context,
+            //                       MaterialPageRoute(
+            //                           builder: (context) =>
+            //                               SearchedResultScreen()));
+            //                 }else{
+            //                   print('false');
+            //                 }
+            //                 searchApi();
+            //
+            //                 print(searchController);
+            //                 setState(() {
+            //                   searchController.text = "";
+            //                 });
+            //               },
+            //               // ignore: prefer_const_constructors
+            //               child: Padding(
+            //                 padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+            //                 // ignore: prefer_const_constructors
+            //                 child: Icon(
+            //                   Icons.search,
+            //                   size: 30,
+            //                 ),
+            //               )),
+            //         ],
+            //       ),
+            //     ),
+            //     Expanded(
+            //       // ignore: avoid_unnecessary_containers
+            //       child: Container(
+            //         child: GridView.builder(
+            //           itemCount: images.length,
+            //           gridDelegate:
+            //               const SliverGridDelegateWithFixedCrossAxisCount(
+            //                   mainAxisSpacing: 2,
+            //                   crossAxisSpacing: 2,
+            //                   childAspectRatio: 2 / 3,
+            //                   crossAxisCount: 2),
+            //           itemBuilder: (context, index) {
+            //             return InkWell(
+            //               onTap: () {
+            //                 Navigator.push(
+            //                     context,
+            //                     MaterialPageRoute(
+            //                         builder: (context) => FullScreen(
+            //                               imageurl: images[index]['src']
+            //                                   ['large2x'],
+            //                             )));
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.all(2.0),
+            //                 child: Container(
+            //                   child: ClipRRect(
+            //                     borderRadius: BorderRadius.circular(8),
+            //                     child: Image.network(
+            //                       images[index]['src']['tiny'],
+            //                       fit: BoxFit.cover,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             );
+            //           },
+            //         ),
+            //       ),
+            //     ),
+            //     InkWell(
+            //       onTap: () {
+            //         loadMore();
+            //       },
+            //       child: SizedBox(
+            //         height: 30,
+            //         width: double.infinity,
+            //         child: const Center(child: Text('Load More')),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
         ),
       ),

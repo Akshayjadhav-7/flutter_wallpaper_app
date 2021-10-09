@@ -94,11 +94,12 @@ class _SearchedResultScreenState extends State<SearchedResultScreen> {
                 child: GestureDetector(
                     onTap: () {
                       loadMore();
+                      print('searchImage line no 97:$searchImage');
                     },
                     child: const Icon(
                       Icons.arrow_drop_down_circle,
                       size: 50,
-                      color: Colors.blue,
+                      color: Colors.pink,
                     )),
               )),
         ],
