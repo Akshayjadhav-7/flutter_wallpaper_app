@@ -2,6 +2,12 @@
 
 A new Flutter application.
 
+WallPaperSpot is Flutter application developed using Pexel Api.
+WallPaperSpot display's variety of wallpapers on Home Screen,
+User Can Search for Specific categories Wallpapers, also User can set Selected Wallpaper to his/her Device.
+
+![News app flutter](https://github.com/Akshayjadhav-7/flutter_wallpaper_app/blob/master/images/photo.png)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

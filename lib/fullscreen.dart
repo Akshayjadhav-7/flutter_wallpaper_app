@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_wallpaper_app/widget/appBar.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 
 class FullScreen extends StatefulWidget {
@@ -23,30 +24,32 @@ class _FullScreenState extends State<FullScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: AppBarWidget(),
+      ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-                child: Container(
-              child: Image.network(widget.imageurl),
-            )),
             Container(
+              alignment: Alignment.topCenter,
+              // height: MediaQuery.of(context).size.height*0.80,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(widget.imageurl,fit: BoxFit.cover,)),
+              ),
+            ),
+            Container(
+
               child: InkWell(
                 onTap: () {
-                  // loadMore();
+                  setWallpaper();
                 },
-                child: InkWell(
-                  onTap: () {
-                    setWallpaper();
-                  },
-                  child: Container(
-                    height: 30,
-                    width: double.infinity,
-                    child: const Center(child: Text('Set Wallpaper')),
-                  ),
-                ),
+                child: const Center(child: Text('Set Wallpaper',style: TextStyle(fontSize: 25,color: Colors.pink),),
               ),
-            )
+            )),
           ],
         ),
       ),
